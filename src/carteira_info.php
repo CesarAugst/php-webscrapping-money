@@ -66,6 +66,24 @@ class MoneyScrapping{
         //instancia o XPath
         return $xp;
     }
+    //busca informacoes do ativo usando  o conteudo processado pelo php
+    protected function get_asset_info($processed_content){
+        //busca de valor
+        try {
+            //xpath onde encontra o valor do ativo
+            $value_xpath = '//*[@id="cards-ticker"]/div[1]/div[2]/div/span';
+            //faz a busca elemento com o xpath na pagina
+            $value_content = $processed_content->query($value_xpath)[0];
+            //busca texto do elemento
+            $value = trim($value_content->nodeValue);
+        }catch (Exception $e){
+            echo 'Erro ao buscar Valor: ',  $e->getMessage(), "\n";
+            $value = null;
+        }
+
+
+        return ["valor" => $value];
+    }
 
 }
 
@@ -80,7 +98,10 @@ class Portifolio extends MoneyScrapping
 
     //busca as informacoes dos ativos
     public function get_assets_info(){
-        //percorre as acoes
+        //lista de resultados vazia
+        $result_list = [];
+
+        //percorre os ativos
         foreach ($this->assets as $asset):
             //busca a url para a consulta
             $url_consult = $this->get_url($asset["name"], $asset["type"]);
@@ -97,7 +118,13 @@ class Portifolio extends MoneyScrapping
             //se nao fez a conversao pula a iteracao
             if(!$processed_content)continue;
 
+            //busca conteudo do ativo
+            $asset_info = $this->get_asset_info($processed_content);
+            $asset["valor"] = $asset_info["valor"];
+            $result_list[] = $asset;
 
         endforeach;
+
+        print_r($result_list);
     }
 }
