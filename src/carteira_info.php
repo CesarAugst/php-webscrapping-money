@@ -19,6 +19,14 @@ $portifolio->get_assets_info();
 class MoneyScrapping{
     //define as urls das acoes
     protected function get_url($asset_name, $asset_type){
+        try {
+            //error
+            if (!$asset_name) throw new Exception('Ativo sem nome');
+            if (!$asset_type) throw new Exception('Ativo sem tipo');
+        } catch (Exception $e) {
+            echo 'Erro ao montar URL: ',  $e->getMessage(), "\n";
+            return false;
+        }
         //conversoes
         $lower_asset_name = strtolower($asset_name);
         //reetorna url completa
@@ -45,7 +53,8 @@ class Portifolio extends MoneyScrapping
         foreach ($this->assets as $asset):
             //busca a url para a consulta
             $url_consult = $this->get_url($asset["name"], $asset["type"]);
-
+            //se nao mont url pula iteracao
+            if(!$url_consult)continue;
         endforeach;
     }
 }
