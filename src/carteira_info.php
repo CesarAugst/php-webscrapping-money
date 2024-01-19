@@ -1,8 +1,12 @@
 <?php
 require_once "classes/Portifolio.php";
-//instancia o portifolio
-$portifolio = new Portifolio();
+require_once "classes/ResultsManipulation.php";
 
+//instanciamento
+$portifolio = new Portifolio();
+$resultsManipulation = new ResultsManipulation();
+
+//definindo ativos
 $portifolio->set_assets([
     [
         "name" => "petr4",
@@ -15,4 +19,10 @@ $portifolio->set_assets([
         "type" => "fiis",
     ]
 ]);
-$portifolio->get_assets_info();
+//buscando informacoes dos ativos
+$dados = $portifolio->get_assets_info();
+
+//gerando csv das informacoes
+$resultsManipulation->generate_csv($dados);
+
+

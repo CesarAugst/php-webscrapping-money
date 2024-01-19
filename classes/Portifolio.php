@@ -36,9 +36,8 @@ class Portifolio extends MoneyScrapping
             $asset["valor"] = $asset_info["valor"];
             $asset["pagamento"] = $asset_info["pagamento"];
             $result_list[] = $asset;
-
         endforeach;
 
-        print_r($result_list);
+        return($result_list);
     }
 }

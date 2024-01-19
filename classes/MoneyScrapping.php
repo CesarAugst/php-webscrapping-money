@@ -82,8 +82,7 @@ class MoneyScrapping
             $payment_value = null;
             $payment_date = null;
         }
-
-
-        return ["valor" => $value, "pagamento" => ["valor" => $payment_value, "data-com" => $payment_date]];
+        //montagem dos dados
+        return ["valor" => $value, "pagamento" => $payment_value, "data-com" => $payment_date];
     }
 }
