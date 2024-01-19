@@ -1,6 +1,7 @@
 <?php
 //instancia o portifolio
-$portifolio = new Portfolio();
+$portifolio = new Portifolio();
+
 $portifolio->set_assets([
     [
         "name" => "petr4",
@@ -21,7 +22,7 @@ class MoneyScrapping{
         //conversoes
         $lower_asset_name = strtolower($asset_name);
         //reetorna url completa
-        return "https://investidor10.com.br/$asset_type/$lower_asset_name}/";
+        return "https://investidor10.com.br/$asset_type/$lower_asset_name/";
     }
     //busca o conteudo da pagina
     protected function get_url_content($url){
@@ -29,8 +30,8 @@ class MoneyScrapping{
     }
 }
 
-//informacoes sobre o portifolio
-class Portfolio extends MoneyScrapping{
+class Portifolio extends MoneyScrapping
+{
     private $assets;
 
     //define as acoes
@@ -44,7 +45,7 @@ class Portfolio extends MoneyScrapping{
         foreach ($this->assets as $asset):
             //busca a url para a consulta
             $url_consult = $this->get_url($asset["name"], $asset["type"]);
-            echo $url_consult . PHP_EOL;
+
         endforeach;
     }
 }
