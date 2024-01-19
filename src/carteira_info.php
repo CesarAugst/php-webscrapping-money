@@ -34,8 +34,39 @@ class MoneyScrapping{
     }
     //busca o conteudo da pagina
     protected function get_url_content($url){
+        try {
+            $content = file_get_contents($url);
+            if(!$content) throw new Exception('Nao obteve conteudo da URL');
+        }catch (Exception $e){
+            echo 'Erro ao consultar URL: ',  $e->getMessage(), "\n";
+            return false;
+        }
         return file_get_contents($url);
     }
+    //converte o conteudo da url em manipulavel pelo PHP
+    protected function get_processed_url($url_content){
+        //converte conteudo em DOMDocument
+        try {
+            $dom = new DOMDocument;
+            libxml_use_internal_errors(true);
+            $dom->loadHTML($url_content);
+        }catch (Exception $e){
+            echo 'Erro ao converter em DOMDocument.';
+            return false;
+        }
+
+        //converte conteudo em DOMXPATH
+        try {
+            $xp = new DOMXPath($dom);
+        }catch (Exception $e){
+            echo 'Erro ao converter em DOMXPath.';
+            return false;
+        }
+
+        //instancia o XPath
+        return $xp;
+    }
+
 }
 
 class Portifolio extends MoneyScrapping
@@ -55,6 +86,18 @@ class Portifolio extends MoneyScrapping
             $url_consult = $this->get_url($asset["name"], $asset["type"]);
             //se nao mont url pula iteracao
             if(!$url_consult)continue;
+
+            //realiza consulta ao conteudo da url montada
+            $url_content = $this->get_url_content($url_consult);
+            //se nao encontrar conteudo pela url pula iteracao
+            if(!$url_content)continue;
+
+            //realiza convertas do conteudo em manipulavel pelo PHP
+            $processed_content = $this->get_processed_url($url_content);
+            //se nao fez a conversao pula a iteracao
+            if(!$processed_content)continue;
+
+
         endforeach;
     }
 }
