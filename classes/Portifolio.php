@@ -4,9 +4,17 @@ class Portifolio extends MoneyScrapping
 {
     private array $assets;
 
-    //define as acoes
-    public function set_assets($assets_list){
-        $this->assets = $assets_list;
+    //define os ativos atraves de um arquivo json
+    public function set_assets($file_path){
+        //leitura de arquivo json
+        try {
+            $json = file_get_contents($file_path);
+            $data = json_decode($json);
+        }catch (Exception $e){
+            echo "Falha ao buscar os dados: " . $e->getMessage();
+            return false;
+        }
+        $this->assets = $data;
     }
 
     //busca as informacoes dos ativos
@@ -17,7 +25,7 @@ class Portifolio extends MoneyScrapping
         //percorre os ativos
         foreach ($this->assets as $asset):
             //busca a url para a consulta
-            $url_consult = $this->get_url($asset["name"], $asset["type"]);
+            $url_consult = $this->get_url($asset->name, $asset->type);
             //se nao mont url pula iteracao
             if(!$url_consult)continue;
 
@@ -33,8 +41,8 @@ class Portifolio extends MoneyScrapping
 
             //busca conteudo do ativo
             $asset_info = $this->get_asset_info($processed_content);
-            $asset["valor"] = $asset_info["valor"];
-            $asset["pagamento"] = $asset_info["pagamento"];
+            $asset->valor = $asset_info["valor"];
+            $asset->pagamento = $asset_info["pagamento"];
             $result_list[] = $asset;
         endforeach;
 

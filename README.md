@@ -10,3 +10,4 @@
  - [Como Converter Arrays em Objetos e Vice-Versa Usando Uma Linha de Código](https://mateussouzaweb.com/blog/php/como-converter-arrays-em-objetos-e-vice-versa-usando-uma-linha-de-codigo)
  - [Gerar arquivo csv em php](https://pt.stackoverflow.com/questions/132318/gerar-arquivo-csv-em-php)
  - [Exceções](https://www.php.net/manual/pt_BR/language.exceptions.php)
+ - [Introdução ao JSON](https://www.json.org/json-pt.html)
