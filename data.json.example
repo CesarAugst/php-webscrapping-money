@@ -12,5 +12,9 @@
   {
     "name": "hglg11",
     "type": "fiis"
+  },
+  {
+    "name": "gogl34",
+    "type": "bdrs"
   }
 ]
